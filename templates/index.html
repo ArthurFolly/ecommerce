@@ -3,125 +3,507 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro - GameZone</title>
+  <title>GameZone - Loja de Videogames</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    header {
+      background-color: #1a1a1a;
+      color: #00ff88;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 2px solid #00ff88;
+    }
+    .auth {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .auth button {
+      background: #00ff88;
+      color: #121212;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .auth button:hover {
+      background: #00cc6a;
     }
     .container {
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
-      width: 350px;
-      color: #fff;
+      max-width: 1200px;
+      margin: auto;
+      padding: 1rem;
     }
-    h2 {
-      color: #00ff88;
-      text-align: center;
+    .filters {
+      display: flex;
       margin-bottom: 20px;
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 8px;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #333;
-      border-radius: 5px;
+    .filters input, .filters select {
+      padding: 10px;
+      margin-right: 10px;
       background: #2d2d2d;
       color: #fff;
+      border: 1px solid #00ff88;
+      border-radius: 4px;
     }
-    button {
-      background-color: #00ff88;
+    .filters button {
+      background: #00ff88;
       color: #121212;
-      padding: 12px;
       border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .product {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+    }
+    .product img {
       width: 100%;
-      border-radius: 5px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .product h3 {
+      color: #00ff88;
+      margin: 10px 0;
+    }
+    .product p {
+      margin: 5px 0;
+    }
+    .product button {
+      background: #00ff88;
+      color: #121212;
+      border: none;
+      padding: 8px;
+      width: 100%;
+      border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
       margin-top: 10px;
+      transition: background 0.3s;
     }
-    button:hover {
-      background-color: #00cc6a;
+    .product button:hover {
+      background: #00cc6a;
     }
-    #mensagem {
-      margin-top: 15px;
-      text-align: center;
+    .cart {
+      background: #1e1e1e;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 8px;
+      border: 1px solid #00ff88;
     }
-    a {
+    .cart h2 {
       color: #00ff88;
-      text-decoration: none;
-      display: block;
-      text-align: center;
-      margin-top: 15px;
+      margin-top: 0;
     }
-    a:hover {
-      text-decoration: underline;
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
+    .cart-total {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 15px;
+      color: #00ff88;
+      font-size: 1.2em;
+    }
+    .platform-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .ps5 { background: #003791; color: white; }
+    .xbox { background: #107c10; color: white; }
+    .nintendo { background: #e60012; color: white; }
+    .pc { background: #333; color: white; }
+    .ver {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .ver:hover {
+      background: #cc0000;
+    }
+    .empty-cart {
+      text-align: center;
+      color: #888;
+      padding: 20px;
+    }
+    .checkout-btn {
+      background: #00ff88;
+      color: #121212;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      width: 100%;
+      margin-top: 15px;
+      transition: all 0.3s;
+    }
+    .checkout-btn:hover {
+      background: #00cc6a;
+      transform: translateY(-2px);
+    }
+    .checkout-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .payment-methods {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .payment-methods img {
+      height: 30px;
+      filter: grayscale(100%);
+      opacity: 0.7;
+      transition: all 0.3s;
+    }
+    .payment-methods img:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      border: 2px solid #00ff88;
+      text-align: center;
+    }
+    .modal h2 {
+      color: #00ff88;
+      margin-top: 0;
+    }
+    .close-modal {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>GameZone</h1>
+    <div class="auth">
+      <a href="login.html"><button>Login</button></a>
+    </div>
+  </header>
+  
   <div class="container">
-    <h2>Cadastro</h2>
-    <form id="cadastroForm">
-      <input type="text" id="nome" placeholder="Nome" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Senha" required />
-      <button type="submit">Registrar</button>
-    </form>
-    <a href="login.html">Já tem uma conta? Faça login</a>
-    <div id="mensagem"></div>
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Buscar jogos..." />
+      <select id="platformFilter">
+        <option value="">Todas as plataformas</option>
+        <option value="PS5">PlayStation 5</option>
+        <option value="Xbox">Xbox Series X</option>
+        <option value="Nintendo">Nintendo Switch</option>
+        <option value="PC">PC</option>
+      </select>
+      <select id="categoryFilter">
+        <option value="">Todas as categorias</option>
+        <option value="Jogo">Jogos</option>
+        <option value="Console">Consoles</option>
+        <option value="Acessório">Acessórios</option>
+      </select>
+      <button onclick="filterProducts()">Filtrar</button>
+    </div>
+
+    <div class="products" id="products"></div>
+
+    <div class="cart" id="cart">
+      <h2>🛒 Carrinho de Compras</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal">Total: R$ 0.00</div>
+      
+      <button id="checkoutBtn" class="checkout-btn" disabled onclick="processPayment()">
+        Finalizar Compra
+      </button>
+      
+      <div class="payment-methods">
+        <img src="https://logodownload.org/wp-content/uploads/2014/10/paypal-logo-1.png" alt="PayPal">
+        <img src="https://logodownload.org/wp-content/uploads/2014/04/visa-logo-1.png" alt="Visa">
+        <img src="https://logodownload.org/wp-content/uploads/2019/07/mastercard-logo.png" alt="Mastercard">
+        <img src="https://logodownload.org/wp-content/uploads/2020/04/mercado-pago-logo-0.png" alt="Mercado Pago">
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação -->
+  <div class="modal" id="paymentModal">
+    <div class="modal-content">
+      <h2>Compra Finalizada!</h2>
+      <p id="confirmationMessage">Sua compra no valor de <strong>R$ 0.00</strong> foi processada com sucesso.</p>
+      <p>Obrigado por comprar na GameZone!</p>
+      <button class="close-modal" onclick="closeModal()">Fechar</button>
+    </div>
   </div>
 
   <script>
-    document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    // Dados de exemplo (serão substituídos pelos dados do backend)
+    let allProducts = [
+      {
+        id: 1,
+        nome: "God of War Ragnarök",
+        descricao: "A sequência épica da saga nórdica de Kratos e Atreus",
+        preco: 299.90,
+        plataforma: "PS5",
+        categoria: "Jogo",
+        imagem: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png",
+        estoque: 50
+      },
+      {
+        id: 2,
+        nome: "Xbox Series X",
+        descricao: "Console de última geração da Microsoft",
+        preco: 4499.00,
+        plataforma: "Xbox",
+        categoria: "Console",
+        imagem: "https://compass-ssl.xbox.com/assets/b9/0a/b90ad58f-9950-44a7-87fa-1ee8f0b6a90e.jpg?n=XBX_A-BuyBoxBGImage02-D.png",
+        estoque: 30
+      },
+      {
+        id: 3,
+        nome: "The Legend of Zelda: Tears of the Kingdom",
+        descricao: "A nova aventura de Link em Hyrule",
+        preco: 349.90,
+        plataforma: "Nintendo",
+        categoria: "Jogo",
+        imagem: "https://m.media-amazon.com/images/I/81HnXQDo-4L._AC_UF1000,1000_QL80_.jpg",
+        estoque: 45
+      },
+      {
+        id: 4,
+        nome: "DualSense Edge",
+        descricao: "Controle premium para PS5 com personalização avançada",
+        preco: 999.90,
+        plataforma: "PS5",
+        categoria: "Acessório",
+        imagem: "https://media.direct.playstation.com/is/image/sierialto/dualsense-edge-wireless-controller-front-accessories",
+        estoque: 25
+      },
+      {
+        id: 5,
+        nome: "Elden Ring",
+        descricao: "RPG de ação em mundo aberto pelos criadores de Dark Souls",
+        preco: 249.90,
+        plataforma: "PC",
+        categoria: "Jogo",
+        imagem: "https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/phvVT0qZfcRms5qDAk0SI3CM.png",
+        estoque: 60
+      }
+    ];
+    
+    const cart = [];
+    let totalValue = 0;
 
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('password').value;
-      const mensagem = document.getElementById('mensagem');
-
+    // Função para carregar produtos do backend
+    async function loadProducts() {
       try {
-        const resposta = await fetch('/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: nome,
-            email: email,
-            password: senha
-          })
-        });
-
-        const resultado = await resposta.json();
-
-        if (resposta.ok) {
-          mensagem.style.color = '#00ff88';
-          mensagem.textContent = resultado.mensagem || "Cadastro realizado com sucesso!";
-          
-          setTimeout(() => {
-            window.location.href = '/login';
-          }, 1000);
+        const response = await fetch('/produtos');
+        if (response.ok) {
+          allProducts = await response.json();
         } else {
-          mensagem.style.color = 'red';
-          mensagem.textContent = resultado.erro || "Erro ao cadastrar.";
+          console.error('Erro ao carregar produtos do backend, usando dados locais');
         }
       } catch (error) {
-        mensagem.style.color = 'red';
-        mensagem.textContent = "Erro na requisição.";
-        console.error("Erro:", error);
+        console.error('Erro na conexão com o backend:', error);
       }
-    });
+      displayProducts(allProducts);
+    }
+
+    function displayProducts(products) {
+      const container = document.getElementById('products');
+      container.innerHTML = '';
+      
+      if (products.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Nenhum produto encontrado com esses filtros.</p>';
+        return;
+      }
+      
+      products.forEach(prod => {
+        const platformClass = prod.plataforma ? prod.plataforma.toLowerCase() : '';
+        container.innerHTML += `
+          <div class="product">
+            <img src="${prod.imagem}" alt="${prod.nome}" />
+            <h3>${prod.nome}</h3>
+            ${prod.plataforma ? `<span class="platform-badge ${platformClass}">${prod.plataforma}</span>` : ''}
+            <p>${prod.descricao}</p>
+            <p><strong>R$ ${prod.preco.toFixed(2)}</strong></p>
+            <button onclick='addToCart(${JSON.stringify(prod)})'>Adicionar ao Carrinho</button>
+          </div>
+        `;
+      });
+    }
+
+    function filterProducts() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const platform = document.getElementById('platformFilter').value;
+      const category = document.getElementById('categoryFilter').value;
+
+      const filtered = allProducts.filter(p => {
+        const matchName = p.nome.toLowerCase().includes(search);
+        const matchPlatform = !platform || p.plataforma === platform;
+        const matchCategory = !category || p.categoria === category;
+        return matchName && matchPlatform && matchCategory;
+      });
+      displayProducts(filtered);
+    }
+
+    function addToCart(product) {
+      cart.push(product);
+      updateCart();
+      
+      // Rola a página até o carrinho
+      document.getElementById('cart').scrollIntoView({
+        behavior: 'smooth'
+      });
+      
+      // Adiciona um efeito visual no carrinho
+      const cartElement = document.getElementById('cart');
+      cartElement.style.boxShadow = '0 0 15px rgba(0, 255, 136, 0.5)';
+      setTimeout(() => {
+        cartElement.style.boxShadow = 'none';
+      }, 1000);
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      cartItems.innerHTML = '';
+      totalValue = 0;
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty-cart">Seu carrinho está vazio</div>';
+        cartTotal.innerText = 'Total: R$ 0.00';
+        checkoutBtn.disabled = true;
+        return;
+      }
+      
+      cart.forEach((item, index) => {
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.nome}</strong><br>
+              <small>${item.plataforma} • R$ ${item.preco.toFixed(2)}</small>
+            </div>
+            <button class="ver" onclick="removeFromCart(${index})">Remover</button>
+          </div>
+        `;
+        totalValue += item.preco;
+      });
+
+      cartTotal.innerText = `Total: R$ ${totalValue.toFixed(2)}`;
+      checkoutBtn.disabled = false;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    // Função para processar pagamento (simulação)
+    async function processPayment() {
+      // Simulando envio para o backend
+      try {
+        // Aqui você faria a chamada real para sua API de pagamento
+        const response = await fetch('/processar-pagamento', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            items: cart,
+            total: totalValue,
+            userId: '123' // Você obteria isso do sistema de autenticação
+          })
+        });
+        
+        // Em uma aplicação real, você verificaria a resposta
+        // Aqui estamos apenas simulando sucesso
+        
+        // Mostra o modal de confirmação
+        document.getElementById('confirmationMessage').innerHTML = 
+          `Sua compra no valor de <strong>R$ ${totalValue.toFixed(2)}</strong> foi processada com sucesso.`;
+        
+        document.getElementById('paymentModal').style.display = 'flex';
+        
+        // Limpa o carrinho após a compra
+        cart.length = 0;
+        updateCart();
+        
+      } catch (error) {
+        console.error('Erro ao processar pagamento:', error);
+        alert('Ocorreu um erro ao processar seu pagamento. Por favor, tente novamente.');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    // Carrega os produtos quando a página é carregada
+    window.onload = loadProducts;
   </script>
 </body>
 </html>
